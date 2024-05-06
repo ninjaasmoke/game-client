@@ -1,8 +1,33 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import local from 'next/font/local';
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const mabry = local({
+  src: [
+    {
+      path: '../public/fonts/MabryPro-Black.ttf',
+      weight: '900',
+    },
+    {
+      path: '../public/fonts/MabryPro-Bold.ttf',
+      weight: '700',
+    },
+    {
+      path: '../public/fonts/MabryPro-Medium.ttf',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/MabryPro-Regular.ttf',
+      weight: '400',
+    },
+    {
+      path: '../public/fonts/MabryPro-Italic.ttf',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-mabry',
+});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={mabry.className}>{children}</body>
     </html>
   );
 }
