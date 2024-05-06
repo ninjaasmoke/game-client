@@ -129,6 +129,7 @@ function RoomPage({ params }: { params: { roomID: string } }) {
             setText(e.target.value);
           }}
           value={text}
+          placeholder="Type a message..."
         />
         <button
           onClick={() => {
