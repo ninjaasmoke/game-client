@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v4 } from "uuid";
 
 export const WsURL = 'ws://localhost:8080/join';
 
@@ -20,7 +21,7 @@ export const WsURL = 'ws://localhost:8080/join';
         }
  */
 
-export const uuid = Math.random().toString(36).substring(2);
+export const uuid = v4();
 
 export async function createRoom() {
     try {

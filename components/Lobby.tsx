@@ -4,14 +4,14 @@ import { uuid } from "@/app/handler";
 import useFrontendStore from "@/app/store";
 import styles from "@/components/Lobby.module.css";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
 function Lobby() {
   const router = useRouter();
   const [screen, setScreen] = useState("welcome");
-  const { roomId, setRoomId } = useFrontendStore();
+  const { roomId, setRoomId, setBrowserId } = useFrontendStore();
 
   const createRoom = async () => {
     try {
@@ -26,6 +26,17 @@ function Lobby() {
   const joinRoom = async (roomId: string) => {
     router.push(`/room/${roomId}`);
   };
+
+  useEffect(() => {
+    // if window.localStorage.getItem("browserId") is null, set it to uuid
+    const bId = window.localStorage.getItem("browserId");
+    if (bId == null) {
+      window.localStorage.setItem("browserId", uuid);
+      setBrowserId(uuid);
+    } else {
+      setBrowserId(bId);
+    }
+  }, []);
 
   return (
     <div className={styles.lobby}>
@@ -102,10 +113,7 @@ function JoinRoomScreen({
       >
         Join
       </button>
-      <button
-        onClick={() => setScreen("welcome")}
-        className={styles.back}
-      >
+      <button onClick={() => setScreen("welcome")} className={styles.back}>
         Back
       </button>
     </>
