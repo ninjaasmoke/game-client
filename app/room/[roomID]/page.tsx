@@ -20,7 +20,7 @@ function RoomPage({ params }: { params: { roomID: string } }) {
   const router = useRouter();
   const { roomID } = params;
   const { browserId } = useFrontendStore();
-  var wsURL = "ws://localhost:8080/join?room=" + roomID + "&uuid=" + browserId;
+  var wsURL = "wss://game-socket.azurewebsites.net/join?room=" + roomID + "&uuid=" + browserId;
 
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -29,7 +29,13 @@ function RoomPage({ params }: { params: { roomID: string } }) {
   const [notification, setNotification] = useState<string | null>(null);
 
   useEffect(() => {
-    const ws = new WebSocket(wsURL);
+    var ws;
+    try {
+      ws = new WebSocket(wsURL);
+    } catch (error) {
+      console.error(error);
+      return;
+    }
     setWs(ws);
     ws.onopen = () => {
       console.log("Connected to server");
@@ -53,9 +59,6 @@ function RoomPage({ params }: { params: { roomID: string } }) {
     ws.onclose = () => {
       console.log("Disconnected from server");
     };
-    return () => {
-      ws.close();
-    };
   }, [wsURL]);
 
   const sendMessage = (message: Message) => {
@@ -64,7 +67,9 @@ function RoomPage({ params }: { params: { roomID: string } }) {
       return;
     }
     try {
+      console.log("Sending message");
       ws.send(JSON.stringify(message));
+      console.log("Message sent");
     } catch (error) {
       console.error(error);
     }

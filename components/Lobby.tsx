@@ -15,7 +15,7 @@ function Lobby() {
 
   const createRoom = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/create");
+      const response = await axios.get("https://game-socket.azurewebsites.net/create");
       setRoomId(response.data);
       router.push(`/room/${response.data}`);
     } catch (error) {
@@ -30,12 +30,14 @@ function Lobby() {
   useEffect(() => {
     // if window.localStorage.getItem("browserId") is null, set it to uuid
     const bId = window.localStorage.getItem("browserId");
+    console.log(bId);
     if (bId == null) {
       window.localStorage.setItem("browserId", uuid);
       setBrowserId(uuid);
     } else {
       setBrowserId(bId);
     }
+    console.log(window.localStorage.getItem("browserId"));
   }, []);
 
   return (

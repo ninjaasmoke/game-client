@@ -1,7 +1,7 @@
 import axios from "axios";
 import { v4 } from "uuid";
 
-export const WsURL = 'ws://localhost:8080/join';
+export const WsURL = 'wss://game-socket.azurewebsites.net/join';
 
 /**
  * 
